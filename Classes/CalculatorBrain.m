@@ -47,6 +47,14 @@
 	else if ([@"+/-" isEqual:operation])
 	{
 		operand = -operand;
+	} else if ([@"1/x" isEqual:operation]) {
+		if (operand) {
+			operand = 1 / operand;
+		}
+	} else if ([@"sin" isEqual:operation]) {
+		operand = sin(operand);
+	} else if ([@"cos" isEqual:operation]) {
+		operand = cos(operand);
 	}
 	else
 	{
