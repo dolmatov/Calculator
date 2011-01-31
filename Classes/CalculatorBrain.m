@@ -55,6 +55,12 @@
 		operand = sin(operand);
 	} else if ([@"cos" isEqual:operation]) {
 		operand = cos(operand);
+	} else if ([@"Store" isEqual:operation]) {
+		memoryCell = operand;
+	} else if ([@"Recall" isEqual:operation]) {
+		operand = memoryCell;
+	} else if ([@"Mem+" isEqual:operation]) {
+		memoryCell = memoryCell + operand;
 	}
 	else
 	{
