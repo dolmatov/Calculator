@@ -61,6 +61,11 @@
 		operand = memoryCell;
 	} else if ([@"Mem+" isEqual:operation]) {
 		memoryCell = memoryCell + operand;
+	} else if ([@"Clear" isEqual:operation]) {
+		operand = 0;
+		waitingOperand = 0;
+		memoryCell = 0;
+		waitingOperation = nil;
 	}
 	else
 	{
