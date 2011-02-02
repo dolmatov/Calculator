@@ -21,6 +21,7 @@
 - (IBAction)digitPressed:(UIButton *)sender;
 - (IBAction)dotPressed:(UIButton *)sender;
 - (IBAction)operationPressed:(UIButton *)sender;
+- (IBAction)backspacePressed:(UIButton *)sender;
 
 @end
 

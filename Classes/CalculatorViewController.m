@@ -67,4 +67,15 @@
 	memDisplay.text = [NSString stringWithFormat:@"%g", self.brain.memoryCell];
 }
 
+- (IBAction)backspacePressed:(UIButton *)sender
+{
+	NSUInteger displayStringLength = display.text.length;
+	if (displayStringLength > 1) {
+		display.text = [display.text substringToIndex:(displayStringLength - 1)];
+	} else {
+		display.text = @"0";
+		userIsInTheMiddleOfTypingANumber = NO;
+	}
+}
+
 @end
