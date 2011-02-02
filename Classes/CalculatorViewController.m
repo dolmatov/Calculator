@@ -8,6 +8,11 @@
 
 #import "CalculatorViewController.h"
 
+@interface CalculatorViewController()
+@property (readonly) CalculatorBrain *brain;
+@end
+
+
 @implementation CalculatorViewController
 
 - (CalculatorBrain *)brain
@@ -26,6 +31,7 @@
 		[display setText:digit];
 		userIsInTheMiddleOfTypingANumber = YES;
 	}
+	errDisplay.text = self.brain.errMsg;
 }
 
 - (IBAction)dotPressed:(UIButton *)sender
@@ -39,18 +45,26 @@
 		}
 		dotIsPressed = YES;
 	}
+	errDisplay.text = self.brain.errMsg;
 }
 
 - (IBAction)operationPressed:(UIButton *)sender
 {
 	if (userIsInTheMiddleOfTypingANumber) {
-		[[self brain] setOperand:[[display text] doubleValue]];
+		self.brain.operand = display.text.doubleValue;
 		userIsInTheMiddleOfTypingANumber = NO;
 	}
 	dotIsPressed = NO;
-	NSString *operation = [[sender titleLabel] text];
-	double result = [[self brain] performOperation:operation];
-	[display setText:[NSString stringWithFormat:@"%g", result]];
+	NSString *operation = sender.titleLabel.text;
+	double result = [self.brain performOperation:operation];
+	if (self.brain.errMsg) {
+		errDisplay.text = self.brain.errMsg;
+		self.brain.errMsg = nil;
+	} else {
+		errDisplay.text = self.brain.errMsg;
+		[display setText:[NSString stringWithFormat:@"%g", result]];
+	}
+	memDisplay.text = [NSString stringWithFormat:@"%g", self.brain.memoryCell];
 }
 
 @end

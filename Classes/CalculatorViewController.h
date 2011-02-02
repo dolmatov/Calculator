@@ -11,6 +11,8 @@
 
 @interface CalculatorViewController : UIViewController {
 	IBOutlet UILabel *display;
+	IBOutlet UILabel *errDisplay;
+	IBOutlet UILabel *memDisplay;
 	CalculatorBrain *brain;
 	BOOL userIsInTheMiddleOfTypingANumber;
 	BOOL dotIsPressed;

@@ -11,10 +11,9 @@
 
 @implementation CalculatorBrain
 
-- (void)setOperand:(double)aDouble
-{
-	operand = aDouble;
-}
+@synthesize operand;
+@synthesize memoryCell;
+@synthesize errMsg;
 
 - (void)performWaitingOperation
 {
@@ -34,6 +33,8 @@
 	{
 		if (operand) {
 			operand = waitingOperand / operand;
+		} else {
+			self.errMsg = @"Sorry, divide by zero!";
 		}
 	}
 }
@@ -42,7 +43,11 @@
 - (double)performOperation:(NSString *)operation
 {
 	if ([operation isEqual:@"sqrt"]) {
-		operand = sqrt(operand);
+		if (operand >= 0.0) {
+			operand = sqrt(operand);
+		} else {
+			self.errMsg = @"Sorry, no square root from negative number!";
+		}
 	}
 	else if ([@"+/-" isEqual:operation])
 	{
@@ -61,6 +66,8 @@
 		operand = memoryCell;
 	} else if ([@"Mem+" isEqual:operation]) {
 		memoryCell = memoryCell + operand;
+	} else if ([@"MC" isEqual:operation]) {
+		memoryCell = 0;
 	} else if ([@"Clear" isEqual:operation]) {
 		operand = 0;
 		waitingOperand = 0;
