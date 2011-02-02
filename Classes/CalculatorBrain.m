@@ -68,6 +68,8 @@
 		memoryCell = memoryCell + operand;
 	} else if ([@"MC" isEqual:operation]) {
 		memoryCell = 0;
+	} else if ([@"PI" isEqual:operation]) {
+		operand = 3.14159265;
 	} else if ([@"Clear" isEqual:operation]) {
 		operand = 0;
 		waitingOperand = 0;
