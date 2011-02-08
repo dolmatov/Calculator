@@ -88,4 +88,11 @@
 	return operand;
 }
 
+- (void)dealloc
+{
+	[errMsg release];
+	[waitingOperation release];
+	[super dealloc];
+}
+
 @end
