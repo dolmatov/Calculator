@@ -19,7 +19,6 @@
 {
 	if (!brain) {
 		brain = [[CalculatorBrain alloc] init];
-		brain.useRadians = YES;
 	}
 	return brain;
 }
@@ -79,11 +78,6 @@
 		display.text = @"0";
 		userIsInTheMiddleOfTypingANumber = NO;
 	}
-}
-
-- (IBAction)radiansSwitchToggled:(UIButton *)sender
-{
-	self.brain.useRadians = radiansSwitch.on;
 }
 
 @end

@@ -13,7 +13,6 @@
 
 @synthesize operand;
 @synthesize memoryCell;
-@synthesize useRadians;
 @synthesize errMsg;
 
 - (void)performWaitingOperation
@@ -60,17 +59,9 @@
 			operand = 1 / operand;
 		}
 	} else if ([@"sin" isEqual:operation]) {
-		if (useRadians) {
-			operand = sin(operand);
-		} else {
-			operand = sin(operand * pi / 180);
-		}
+		operand = sin(operand);
 	} else if ([@"cos" isEqual:operation]) {
-		if (useRadians) {
-			operand = cos(operand);
-		} else {
-			operand = cos(operand * pi / 180);
-		}
+		operand = cos(operand);
 	} else if ([@"Store" isEqual:operation]) {
 		memoryCell = operand;
 	} else if ([@"Recall" isEqual:operation]) {
