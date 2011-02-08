@@ -13,6 +13,7 @@
 
 @synthesize operand;
 @synthesize memoryCell;
+@synthesize useRadians;
 @synthesize errMsg;
 
 - (void)performWaitingOperation
@@ -42,6 +43,8 @@
 
 - (double)performOperation:(NSString *)operation
 {
+	double pi = 3.14159265;
+	
 	if ([operation isEqual:@"sqrt"]) {
 		if (operand >= 0.0) {
 			operand = sqrt(operand);
@@ -57,9 +60,17 @@
 			operand = 1 / operand;
 		}
 	} else if ([@"sin" isEqual:operation]) {
-		operand = sin(operand);
+		if (useRadians) {
+			operand = sin(operand);
+		} else {
+			operand = sin(operand * pi / 180);
+		}
 	} else if ([@"cos" isEqual:operation]) {
-		operand = cos(operand);
+		if (useRadians) {
+			operand = cos(operand);
+		} else {
+			operand = cos(operand * pi / 180);
+		}
 	} else if ([@"Store" isEqual:operation]) {
 		memoryCell = operand;
 	} else if ([@"Recall" isEqual:operation]) {
@@ -69,7 +80,7 @@
 	} else if ([@"MC" isEqual:operation]) {
 		memoryCell = 0;
 	} else if ([@"PI" isEqual:operation]) {
-		operand = 3.14159265;
+		operand = pi;
 	} else if ([@"Clear" isEqual:operation]) {
 		operand = 0;
 		waitingOperand = 0;

@@ -18,10 +18,13 @@
 	double memoryCell;
 @private
 	NSString *errMsg;
+@private
+	BOOL useRadians;
 }
 
 @property double operand;
 @property double memoryCell;
+@property BOOL useRadians;
 @property (assign) NSString *errMsg;
 - (double)performOperation:(NSString *)operation;
 

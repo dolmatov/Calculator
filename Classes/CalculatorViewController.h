@@ -13,6 +13,7 @@
 	IBOutlet UILabel *display;
 	IBOutlet UILabel *errDisplay;
 	IBOutlet UILabel *memDisplay;
+	IBOutlet UISwitch *radiansSwitch;
 	CalculatorBrain *brain;
 	BOOL userIsInTheMiddleOfTypingANumber;
 	BOOL dotIsPressed;
@@ -22,6 +23,7 @@
 - (IBAction)dotPressed:(UIButton *)sender;
 - (IBAction)operationPressed:(UIButton *)sender;
 - (IBAction)backspacePressed:(UIButton *)sender;
+- (IBAction)radiansSwitchToggled:(UISwitch *)sender;
 
 @end
 
