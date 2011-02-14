@@ -15,6 +15,12 @@
 @synthesize memoryCell;
 @synthesize errMsg;
 
+- (id)init
+{
+	internalExpression = [[NSMutableArray alloc] init];
+	return self;
+}
+
 - (void)performWaitingOperation
 {
 	if ([@"+" isEqual:waitingOperation])
@@ -77,6 +83,7 @@
 		waitingOperand = 0;
 		memoryCell = 0;
 		waitingOperation = nil;
+		[internalExpression removeAllObjects];
 	}
 	else
 	{
@@ -85,7 +92,92 @@
 		waitingOperand = operand;
 	}
 	
+	if (![operation isEqual:@"Clear"]) {
+		[internalExpression addObject:operation];
+	}
+	
 	return operand;
+}
+
+- (void)setVariableAsOperand:(NSString *)variableName
+{
+	NSString *vp = VARIABLE_PREFIX;
+	[internalExpression addObject:[NSString stringWithFormat:@"%@%@", vp, variableName]];
+}
+
+- (void)setOperand:(double)anOperand
+{
+	operand = anOperand;
+	[internalExpression addObject:[NSNumber numberWithDouble:operand]];
+}
+
+- (NSString *)expression
+{
+	return [internalExpression copy];
+}
+
++ (double)evaluateExpression:(id)anExpression usingVariableValues:(NSDictionary *)variables
+{
+	CalculatorBrain *brain = [[CalculatorBrain alloc] init];
+	double result;
+	for (id val in anExpression) {
+		if ([val isKindOfClass:[NSNumber class]]) {
+			[brain setOperand:[val doubleValue]];
+		} else if ([val isKindOfClass:[NSString class]]) {
+			if ([CalculatorBrain isVariable:val]) {
+				NSString *varName = [val substringFromIndex:1];
+				double varValue = [[variables objectForKey:varName] doubleValue];
+				brain.operand = varValue;
+			} else {
+				result = [brain performOperation:val];
+			}
+		}
+	}
+	return result;
+}
+
++ (BOOL)isVariable:(NSString *)aValue
+{
+	return [aValue isKindOfClass:[NSString class]] &&
+	[aValue hasPrefix:VARIABLE_PREFIX] &&
+	([aValue length] > 1);
+}
+
++ (NSSet *)variablesInExpression:(id)anExpression
+{
+	NSMutableSet *vars = [[NSMutableSet alloc] init];
+	for (id val in anExpression) {
+		if ([CalculatorBrain isVariable:val]) {
+			[vars addObject:val];
+		}
+	}
+
+	if ([vars count] > 0) {
+		return vars;
+	} else {
+		return nil;
+	}
+}
+
++ (NSString *)descriptionOfExpression:(id)anExpression
+{
+	NSString *exprString = @"";
+	for (id val in anExpression) {
+		if ([CalculatorBrain isVariable:val]) {
+			val = [val substringFromIndex:1];
+		}
+		exprString = [exprString stringByAppendingString:[val description]];
+	}
+	return exprString;
+}
+
++ (NSDictionary *)tempVariables
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:2], @"x",
+			[NSNumber numberWithDouble:3], @"a",
+			[NSNumber numberWithDouble:4], @"b",
+			[NSNumber numberWithDouble:5], @"c",
+			nil];
 }
 
 - (void)dealloc

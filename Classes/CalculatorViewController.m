@@ -64,7 +64,11 @@
 		self.brain.errMsg = nil;
 	} else {
 		errDisplay.text = self.brain.errMsg;
-		[display setText:[NSString stringWithFormat:@"%g", result]];
+		if ([CalculatorBrain variablesInExpression:self.brain.expression]) {
+			display.text = [CalculatorBrain descriptionOfExpression:brain.expression];
+		} else {
+			display.text = [NSString stringWithFormat:@"%g", result];
+		}
 	}
 	memDisplay.text = [NSString stringWithFormat:@"%g", self.brain.memoryCell];
 }
@@ -80,9 +84,23 @@
 	}
 }
 
+- (IBAction)variablePressed:(UIButton *)sender
+{
+	[self.brain setVariableAsOperand:sender.titleLabel.text];
+	display.text = [CalculatorBrain descriptionOfExpression:brain.expression];
+}
+
+- (IBAction)solvePressed:(UIButton *)sender
+{
+	double result = [CalculatorBrain evaluateExpression:self.brain.expression
+					usingVariableValues:[CalculatorBrain tempVariables]];
+	display.text = [NSString stringWithFormat:@"%g", result];
+}
+
 - (void)dealloc
 {
 	[brain release];
 	[super dealloc];
 }
+
 @end
